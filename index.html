@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VAYRA AI</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: #03060b;
+  color: #e8fbff;
+  font-family: Arial, sans-serif;
+}
+
+.app {
+  max-width: 480px;
+  min-height: 100vh;
+  margin: auto;
+  padding: 24px 18px;
+  background:
+    radial-gradient(ellipse at top, #063344 0%, #03060b 55%);
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  color: #54eaff;
+  font-size: 12px;
+}
+
+.logo {
+  text-align: center;
+  margin: 65px 0 35px;
+}
+
+.logo h1 {
+  font-size: 42px;
+  letter-spacing: 9px;
+  color: #64f3ff;
+  text-shadow: 0 0 24px #00bfff;
+  margin-bottom: 8px;
+}
+
+.logo p {
+  color: #8baebc;
+  letter-spacing: 3px;
+  font-size: 11px;
+}
+
+.orb {
+  width: 145px;
+  height: 145px;
+  margin: 30px auto;
+  border: 2px solid #00d9ff;
+  border-radius: 50%;
+  box-shadow: 0 0 25px #007eae,
+              inset 0 0 30px #005578;
+  display: grid;
+  place-items: center;
+  font-size: 50px;
+  color: #6df5ff;
+}
+
+.status {
+  text-align: center;
+  color: #4be8c1;
+  font-size: 13px;
+  margin-bottom: 22px;
+}
+
+.chat {
+  height: 230px;
+  overflow-y: auto;
+  border: 1px solid #16495c;
+  border-radius: 12px;
+  padding: 12px;
+  background: #06111b;
+}
+
+.msg {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 9px;
+  background: #0b2635;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.user { color: #73eaff; }
+.bot { color: #b6f7dd; }
+
+.controls {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+input {
+  min-width: 0;
+  flex: 1;
+  padding: 13px;
+  color: white;
+  background: #08141e;
+  border: 1px solid #17617a;
+  border-radius: 8px;
+}
+
+button {
+  padding: 12px;
+  border: 1px solid #00dfff;
+  border-radius: 8px;
+  background: #07394a;
+  color: #a7f8ff;
+  font-weight: bold;
+}
+
+.footer {
+  text-align: center;
+  color: #527482;
+  font-size: 11px;
+  margin-top: 24px;
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+  <div class="top">
+    <span>VAYRA SYSTEM</span>
+    <span>ONLINE ●</span>
+  </div>
+
+  <div class="logo">
+    <h1>VAYRA</h1>
+    <p>YOUR AI ASSISTANT</p>
+    <div class="orb">✧</div>
+  </div>
+
+  <div class="status" id="status">
+    SYSTEM READY
+  </div>
+
+  <div class="chat" id="chat">
+    <div class="msg bot">
+      नमस्ते! मैं VAYRA हूँ।
+      अभी मेरा डेमो मोड चालू है।
+      नीचे अपना मैसेज लिखो।
+    </div>
+  </div>
+
+  <div class="controls">
+    <input id="message"
+      placeholder="मुझसे कुछ पूछो..."
+      autocomplete="off">
+    <button onclick="sendMessage()">SEND</button>
+  </div>
+
+  <div class="footer">
+    VAYRA AI • INITIAL PROTOTYPE
+  </div>
+
+</div>
+
+<script>
+function sendMessage() {
+  const input = document.getElementById("message");
+  const chat = document.getElementById("chat");
+  const status = document.getElementById("status");
+  const text = input.value.trim();
+
+  if (!text) return;
+
+  const userMsg = document.createElement("div");
+  userMsg.className = "msg user";
+  userMsg.textContent = "तुम: " + text;
+  chat.appendChild(userMsg);
+
+  let answer =
+    "यह अभी डेमो मोड है। असली AI से जवाब पाने के लिए मुझे AI API से जोड़ना होगा।";
+
+  const lower = text.toLowerCase();
+
+  if (lower.includes("नमस्ते") ||
+      lower.includes("hello") ||
+      lower.includes("hi")) {
+    answer = "नमस्ते! मैं VAYRA हूँ। बताओ, मैं तुम्हारी क्या मदद करूँ?";
+  } else if (lower.includes("नाम")) {
+    answer = "मेरा नाम VAYRA है। मैं तुम्हारा AI असिस्टेंट हूँ।";
+  } else if (lower.includes("समय")) {
+    answer = "तुम्हारे मोबाइल के अनुसार समय: " +
+      new Date().toLocaleTimeString("hi-IN");
+  }
+
+  const botMsg = document.createElement("div");
+  botMsg.className = "msg bot";
+  botMsg.textContent = "VAYRA: " + answer;
+  chat.appendChild(botMsg);
+
+  input.value = "";
+  status.textContent = "DEMO RESPONSE READY";
+  chat.scrollTop = chat.scrollHeight;
+}
+
+document.getElementById("message")
+  .addEventListener("keydown", function(event) {
+    if (event.key === "Enter") sendMessage();
+  });
+</script>
+</body>
+</html>
